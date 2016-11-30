@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by Administrator on 2016/7/3.
  */
-@Service
+
 public class XmlTool {
 //    XStream xstream = new XStream();
 //
