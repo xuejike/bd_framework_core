@@ -92,6 +92,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
     }
 
 
+
     @Override
     public List<T> findByHql(String hql, Object... params) {
         Query query = getQuery(hql, params);
@@ -238,11 +239,11 @@ public class BaseDaoImpl<T> implements Dao<T> {
         return findByExampleEqNeProperty(example, neqProperty,"id");
     }
     @Override
-    public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty,String order) {
+    public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty, String order) {
         return findByExampleEqNeProperty(example, neqProperty,Order.desc(order));
     }
     @Override
-    public List<T> findByExampleEqNeProperty(T example, Map<String, Object> neqProperty,Order order) {
+    public List<T> findByExampleEqNeProperty(T example, Map<String, Object> neqProperty, Order order) {
         Criteria criteria = getSession().createCriteria(clazz)
                 .add(Example.create(example)).addOrder(order);
         addNeProperty(neqProperty, criteria);
