@@ -245,12 +245,6 @@
 
 
 
-        <!-- https://mvnrepository.com/artifact/com.qiniu/qiniu-java-sdk -->
-        <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-            <version>7.1.1</version>
-        </dependency>
 
         <!-- http://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
 
@@ -309,14 +303,6 @@
             <artifactId>joda-time</artifactId>
             <version>2.9.4</version>
         </dependency>
-
-
-        <!--        &lt;!&ndash;二维码jar&ndash;&gt;
-                <dependency>
-                    <groupId>com.github.kenglxn.qrgen</groupId>
-                    <artifactId>javase</artifactId>
-                    <version>2.2.0</version>
-                </dependency>-->
 
 
 
