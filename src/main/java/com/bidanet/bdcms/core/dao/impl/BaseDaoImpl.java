@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class BaseDaoImpl<T> implements Dao<T> {
     protected Logger logger=Logger.getLogger(this.getClass());
-    protected   Class<T> clazz;
+    protected Class<T> clazz;
 
     public BaseDaoImpl() {
         ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
