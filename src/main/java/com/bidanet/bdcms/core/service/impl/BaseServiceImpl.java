@@ -148,8 +148,8 @@ public abstract class BaseServiceImpl<T> implements Service<T> {
 
     @Override
     public void getPageByExampleNe(T query, Page<T> page, Map<String, Object> neqProperty) {
-        List<T> list = getDao().findByExampleNeProperty(query, page.getPageCurrent(), page.getPageSize(), neqProperty);
-        long count = getDao().countByExampleNeProperty(query, neqProperty);
+        List<T> list = getDao().findByExampleEqNeProperty(query, page.getPageCurrent(), page.getPageSize(), neqProperty);
+        long count = getDao().countByExampleEqNeProperty(query, neqProperty);
         page.setList(list);
         page.setTotal(count);
     }
