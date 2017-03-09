@@ -6,6 +6,7 @@ package com.bidanet.bdcms.core.dao.tool;
 public class TestClase {
     private String name;
     private String sex;
+    private boolean open;
 
     public String getName() {
         return name;
@@ -21,5 +22,13 @@ public class TestClase {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

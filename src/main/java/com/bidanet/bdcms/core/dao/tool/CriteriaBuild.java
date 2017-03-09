@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Created by xuejike on 2017/3/9.
  */
-public class LambdaBuild<T> {
+public class CriteriaBuild<T> {
     protected Session session;
     protected Class<T> tClass=ReflectUtil.getGenericClass(this);
     protected Map<String,Object> eqMap;
@@ -24,7 +24,7 @@ public class LambdaBuild<T> {
     protected Map<String,List> neMap;
 
 
-    public LambdaBuild(Session session) {
+    public CriteriaBuild(Session session) {
         this.session = session;
     }
 
@@ -33,13 +33,25 @@ public class LambdaBuild<T> {
     public void  eq(QueryOne<T> queryOne){
 
     }
-
-    public Criteria build(){
+    public Criteria getCriteria(){
         Criteria criteria = session.createCriteria(tClass);
         buildEq(criteria);
 
         return criteria;
     }
+    public Criteria list(int pageNo,int pageSize){
+
+        return getCriteria();
+    }
+    public Criteria count(){
+
+        return count("id");
+    }
+    public Criteria count(String property){
+        Criteria criteria = getCriteria();
+        return criteria;
+    }
+
     protected void buildEq(Criteria criteria){
         criteria.add(Restrictions.allEq(eqMap));
 
