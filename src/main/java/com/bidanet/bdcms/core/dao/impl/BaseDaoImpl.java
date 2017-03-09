@@ -284,7 +284,15 @@ public class BaseDaoImpl<T> implements Dao<T> {
 
     private void addNeProperty(Map<String, Object> neqProperty, Criteria criteria) {
         for (String key : neqProperty.keySet()) {
-            criteria.add(Restrictions.ne(key,neqProperty.get(key)));
+            Object data = neqProperty.get(key);
+            if (data instanceof Iterable){
+                for (Object o : ((Iterable) data)) {
+                    criteria.add(Restrictions.ne(key,o));
+                }
+            }else{
+                criteria.add(Restrictions.ne(key,data));
+            }
+
         }
     }
 
