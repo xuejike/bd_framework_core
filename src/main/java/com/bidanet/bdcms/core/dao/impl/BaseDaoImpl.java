@@ -19,6 +19,8 @@ import java.util.Map;
  * 基础DAO层
  */
 public class BaseDaoImpl<T> implements Dao<T> {
+    protected String coutId = "id";
+    protected String orderId="id";
     protected Logger logger=Logger.getLogger(this.getClass());
     protected Class<T> clazz;
 
@@ -87,7 +89,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     public int count() {
         return (int) getSession().createQuery(
-                "select count(1) from "+clazz.getSimpleName())
+                "select count("+coutId+") from "+clazz.getSimpleName())
                 .uniqueResult();
     }
 
@@ -159,7 +161,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
 
     @Override
     public List<T> findByExampleLike(T example, int pageNo, int pageSize){
-        return findByExampleLike(example, pageNo, pageSize,"id");
+        return findByExampleLike(example, pageNo, pageSize,orderId);
     }
 
     public List<T> findByExampleLike(T example, int pageNo, int pageSize, String order){
@@ -185,14 +187,14 @@ public class BaseDaoImpl<T> implements Dao<T> {
         Long o = (Long) getSession().createCriteria(clazz)
                 .add(Example.create(example)
                         .enableLike(matchMode))
-                .setProjection(Projections.count("1")).uniqueResult();
+                .setProjection(Projections.count("id")).uniqueResult();
         return o;
     }
 
 
     @Override
     public List<T> findByExampleEq(T example) {
-        return findByExampleEq(example,"id");
+        return findByExampleEq(example,orderId);
     }
 
     @Override
@@ -210,7 +212,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     public List<T> findByExampleEq(T example, int pageNo, int pageSize) {
 
-        return findByExampleEq(example, pageNo, pageSize,"id");
+        return findByExampleEq(example, pageNo, pageSize,orderId);
     }
 
     @Override
@@ -236,7 +238,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
 
     @Override
     public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty) {
-        return findByExampleEqNeProperty(example, neqProperty,"id");
+        return findByExampleEqNeProperty(example, neqProperty,orderId);
     }
     @Override
     public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty, String order) {
@@ -265,7 +267,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
     public List<T> findByExampleEqNeProperty(T example, int pageNo, int pageSize,
                                              Map<String, Object> neqProperty) {
         return findByExampleEqNeProperty(example, pageNo,
-                pageSize, neqProperty,"id");
+                pageSize, neqProperty,orderId);
     }
     @Override
     public List<T> findByExampleEqNeProperty(T example, int pageNo, int pageSize,
@@ -344,7 +346,7 @@ public class BaseDaoImpl<T> implements Dao<T> {
                 .addOrder(order);
     }
     private long countCriteria(Criteria criteria){
-        Long result = (Long) criteria.setProjection(Projections.count("1")).uniqueResult();
+        Long result = (Long) criteria.setProjection(Projections.count(coutId)).uniqueResult();
         if (result==null){
             result= 0L;
         }
