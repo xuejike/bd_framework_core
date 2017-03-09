@@ -15,6 +15,12 @@ public interface ExampleEqDao<T> {
      */
     List<T> findByExampleEq(T example);
 
+    /**
+     *
+     * @param example
+     * @param order 倒序排序  字段
+     * @return
+     */
     List<T> findByExampleEq(T example, String order);
 
     List<T> findByExampleEq(T example, Order order);
