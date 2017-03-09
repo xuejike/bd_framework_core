@@ -1,0 +1,15 @@
+package ${packName};
+
+import ${classPackName};
+
+import  com.bidanet.bdcms.dao.${className}Dao;
+
+import org.springframework.stereotype.Repository;
+
+/**
+*
+*/
+@Repository
+public class ${className}DaoImpl extends BaseDaoImpl<${className}> implements ${className}Dao {
+
+}

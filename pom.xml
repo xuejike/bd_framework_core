@@ -6,7 +6,7 @@
 
 
     <groupId>bd_framework</groupId>
-    <artifactId>bd_project</artifactId>
+    <artifactId>bd_framework_core</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -28,10 +28,10 @@
     <repositories>
 
 
-        <!--<repository>-->
-        <!--<id>oschina</id>-->
-        <!--<url>http://maven.oschina.net/content/groups/public/</url>-->
-        <!--</repository>-->
+        <repository>
+        <id>oschina</id>
+        <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
+        </repository>
         <repository>
             <id>maven</id>
 
@@ -298,7 +298,11 @@
         </dependency>
 
 
-
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
 
 
     </dependencies>
