@@ -1,5 +1,6 @@
 package com.bidanet.bdcms.core.dao;
 
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 
@@ -60,4 +61,6 @@ public interface Dao<T> extends ExampleLikeDao<T>, ExampleEqDao<T>, ExampleEqNeP
 
     void flush();
     int execUpdateSQL(String sql);
+
+    LambdaCriteria<T> criteriaQuery();
 }

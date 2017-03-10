@@ -304,6 +304,12 @@
             <version>1.9.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.xuejike</groupId>
+            <artifactId>hibernate-lambda-query</artifactId>
+            <version>0.1.2</version>
+        </dependency>
+
 
     </dependencies>
 

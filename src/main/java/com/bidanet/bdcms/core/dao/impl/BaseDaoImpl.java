@@ -1,10 +1,13 @@
 package com.bidanet.bdcms.core.dao.impl;
 
 
+import com.bidanet.bdcms.core.common.ReflectUtil;
 import com.bidanet.bdcms.core.dao.Dao;
 import com.bidanet.bdcms.core.dao.ExampleEqDao;
 import com.bidanet.bdcms.core.dao.ExampleEqNePropertyDao;
 import com.bidanet.bdcms.core.dao.ExampleLikeDao;
+
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -33,9 +36,11 @@ public class BaseDaoImpl<T> implements Dao<T> {
 
 
 
+
     public BaseDaoImpl() {
         ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
         clazz = (Class<T>) type.getActualTypeArguments()[0];
+
         logger.debug("DAO的真实实现类是：" + this.clazz.getName());
     }
     /**
@@ -305,5 +310,13 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     public int execUpdateSQL(String sql) {
         return getSession().createSQLQuery(sql).executeUpdate();
+
+    }
+
+
+    @Override
+    public LambdaCriteria<T> criteriaQuery(){
+        LambdaCriteria<T> criteriaBuild = new LambdaCriteria<>(clazz,getSession());
+        return criteriaBuild;
     }
 }
