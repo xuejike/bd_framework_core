@@ -307,7 +307,7 @@
         <dependency>
             <groupId>com.github.xuejike</groupId>
             <artifactId>hibernate-lambda-query</artifactId>
-            <version>0.1.2</version>
+            <version>0.1.4-bate1</version>
         </dependency>
 
 
