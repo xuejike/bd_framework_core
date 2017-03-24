@@ -28,10 +28,10 @@
     <repositories>
 
 
-        <repository>
-        <id>oschina</id>
-        <url>http://maven.aliyun.com/nexus/content/repositories/central/</url>
-        </repository>
+        <!--<repository>-->
+        <!--<id>oschina</id>-->
+        <!--<url>http://maven.aliyun.com/nexus/content/repositories/central/</url>-->
+        <!--</repository>-->
         <repository>
             <id>maven</id>
 
