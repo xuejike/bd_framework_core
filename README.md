@@ -11,7 +11,7 @@
 	    <dependency>
     	    <groupId>com.github.xuejike</groupId>
     	    <artifactId>bd_framework_core</artifactId>
-    	    <version>v0.1.1-r</version>
+    	    <version>v0.1.4-bate2</version>
     	</dependency>
 ```
 ## 配置文件
