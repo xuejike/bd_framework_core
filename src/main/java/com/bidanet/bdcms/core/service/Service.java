@@ -3,6 +3,7 @@ package com.bidanet.bdcms.core.service;
 
 
 import com.bidanet.bdcms.core.vo.Page;
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,7 +15,9 @@ import java.util.Map;
 public interface Service<T> {
 
 
-     T load(Serializable id);
+    LambdaCriteria<T> query();
+
+    T load(Serializable id);
      T get(Serializable id);
 
 

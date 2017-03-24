@@ -5,6 +5,7 @@ import com.bidanet.bdcms.core.dao.Dao;
 import com.bidanet.bdcms.core.exception.CheckException;
 import com.bidanet.bdcms.core.service.Service;
 import com.bidanet.bdcms.core.vo.Page;
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,6 +25,11 @@ public abstract class BaseServiceImpl<T> implements Service<T> {
     }
 
     protected abstract Dao getDao();
+
+    @Override
+    public LambdaCriteria<T> query(){
+        return getDao().criteriaQuery();
+    }
 
     @Override
     public T load(Serializable id) {
