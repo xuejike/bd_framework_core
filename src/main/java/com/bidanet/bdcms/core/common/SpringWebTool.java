@@ -15,6 +15,16 @@ import java.io.IOException;
  * SpringMVC，web相关的工具类
  */
 public class SpringWebTool {
+
+    protected static ThreadLocal<HttpServletRequest> requestThreadLocal=new ThreadLocal<>();
+    protected static ThreadLocal<HttpServletResponse> responseThreadLocal=new ThreadLocal<>();
+
+
+    public static void setRequestResponse(HttpServletRequest request,HttpServletResponse response){
+        requestThreadLocal.set(request);
+        responseThreadLocal.set(response);
+    }
+
     public static HttpSession getSession(){
 //        Executors.newCachedThreadPool()
         HttpServletRequest request = getRequest();
@@ -24,16 +34,15 @@ public class SpringWebTool {
     }
 
     public static HttpServletRequest getRequest() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        //得到request
-
-        return servletRequestAttributes.getRequest();
+        HttpServletRequest request = requestThreadLocal.get();
+        return request;
     }
     public static HttpServletResponse getResponse(){
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return servletRequestAttributes.getResponse();
+//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return responseThreadLocal.get();
     }
     public static ServletContext getServletContext(){
+//        getRequest().getSession().getServletContext().
         return ContextLoader.getCurrentWebApplicationContext().getServletContext();
     }
     public static String getRealPath(String path){

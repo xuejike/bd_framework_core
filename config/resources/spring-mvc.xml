@@ -82,6 +82,12 @@
             </set>
         </property>
     </bean>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.bidanet.bdcms.core.interceptor.RequestInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 <!--处理跨域问题-->
     <mvc:cors>
         <mvc:mapping path="/**" allowed-origins="*" allow-credentials="true" max-age="1800" allowed-methods="GET,POST,OPTIONS"/>
