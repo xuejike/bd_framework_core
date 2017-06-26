@@ -22,10 +22,6 @@ import java.util.List;
  * Created by xuejike on 2017/6/26.
  */
 @Configuration
-@ConfigurationProperties
-@ConditionalOnClass(CoreProperties.class)
-@EnableConfigurationProperties(CoreProperties.class)
-@ConditionalOnProperty(prefix = "bd.core",value = "enabled",havingValue = "true")
 public class AutoCoreConfig extends WebMvcConfigurerAdapter{
 
 
