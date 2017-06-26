@@ -30,7 +30,7 @@ public class FileOutputMessageConverter extends AbstractHttpMessageConverter<Fil
     @Override
     protected FileOutput readInternal(Class<? extends FileOutput> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
 
-        return new FileOutput("--");
+        return new FileOutput("不支持输入");
     }
 
     @Override
