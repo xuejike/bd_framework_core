@@ -1,6 +1,7 @@
 package com.bidanet.bdcms.core.common;
 
 
+import com.bidanet.bdcms.core.BdApplication;
 import com.google.common.base.Strings;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -65,10 +66,10 @@ public class SpringWebTool {
         return host+"/"+request.getContextPath()+"/";
     }
     public static <T> T getBean(Class<T> tClass){
-        return ContextLoader.getCurrentWebApplicationContext().getBean(tClass);
+        return BdApplication.getApplicationContext().getBean(tClass);
     }
     public static <T> T getBean(String name,Class<T> tClass){
-        return ContextLoader.getCurrentWebApplicationContext().getBean(name,tClass);
+        return BdApplication.getApplicationContext().getBean(name,tClass);
     }
 
     public static boolean isAjax(){

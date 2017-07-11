@@ -9,6 +9,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -25,7 +28,6 @@ import java.util.List;
  */
 @Configuration
 public class AutoCoreConfig extends WebMvcConfigurerAdapter{
-
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -47,5 +49,9 @@ public class AutoCoreConfig extends WebMvcConfigurerAdapter{
         converters.add(new FileOutputMessageConverter());
         converters.add(new FastJsonHttpMessageConverter());
         super.configureMessageConverters(converters);
+    }
+    @Bean
+    public BdApplication app(@Autowired ApplicationContext applicationContext){
+        return BdApplication.init(applicationContext);
     }
 }
