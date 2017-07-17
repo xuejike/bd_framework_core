@@ -51,7 +51,7 @@ public class SpringWebTool {
         return httpServletResponseThreadLocal.get();
     }
     public static ServletContext getServletContext(){
-        return ContextLoader.getCurrentWebApplicationContext().getServletContext();
+        return httpServletRequestThreadLocal.get().getServletContext();
     }
     public static String getRealPath(String path){
         return getServletContext().getRealPath(path);
