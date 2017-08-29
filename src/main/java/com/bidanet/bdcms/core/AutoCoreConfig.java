@@ -36,7 +36,7 @@ public class AutoCoreConfig extends WebMvcConfigurerAdapter{
     }
 
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         fastJsonHttpMessageConverter.setCharset(Charset.forName("UTF-8"));
         ArrayList<MediaType> mediaTypes = new ArrayList<>();
@@ -46,10 +46,12 @@ public class AutoCoreConfig extends WebMvcConfigurerAdapter{
         fastJsonHttpMessageConverter.setSupportedMediaTypes(mediaTypes);
 
         fastJsonHttpMessageConverter.setFeatures(SerializerFeature.DisableCircularReferenceDetect);
-        converters.add(new FileOutputMessageConverter());
+        converters.add(0,new FileOutputMessageConverter());
         converters.add(new FastJsonHttpMessageConverter());
-        super.configureMessageConverters(converters);
+
+        super.extendMessageConverters(converters);
     }
+
     @Bean
     public BdApplication app(@Autowired ApplicationContext applicationContext){
         return BdApplication.init(applicationContext);
