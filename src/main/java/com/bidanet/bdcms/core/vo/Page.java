@@ -71,6 +71,7 @@ public class Page<T> {
         if (pageCount==0&&total>0&&pageSize>0){
 
             pageCount= (int) (total/pageSize);
+
             if (total%pageSize!=0){
                 pageCount++;
             }
