@@ -32,7 +32,9 @@ public class JsonMessageConverter extends AbstractHttpMessageConverter<Object> {
     }
 
     protected boolean supports(Class<?> clazz) {
-
+        if (clazz ==String.class){
+            return false;
+        }
         return true;
     }
 

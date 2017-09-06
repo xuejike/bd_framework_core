@@ -1,7 +1,13 @@
 package com.bidanet.bdcms.core.dao.impl;
 
 
+import com.bidanet.bdcms.core.common.ReflectUtil;
 import com.bidanet.bdcms.core.dao.Dao;
+import com.bidanet.bdcms.core.dao.ExampleEqDao;
+import com.bidanet.bdcms.core.dao.ExampleEqNePropertyDao;
+import com.bidanet.bdcms.core.dao.ExampleLikeDao;
+
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -16,16 +22,26 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by avatek on 2015/11/2 0002.
+ * 基础DAO层
  */
 public class BaseDaoImpl<T> implements Dao<T> {
+    protected String coutId = "id";
+    protected String orderId="id";
     protected Logger logger=Logger.getLogger(this.getClass());
-    protected   Class<T> clazz;
+    protected Class<T> clazz;
+
+    public final  ExampleEqDao<T> eq=new ExampleEqDaoImpl<T>(this);
+    public final ExampleLikeDao<T> like=new ExampleLikeDaoImpl<T>(this);
+    public final ExampleEqNePropertyDao<T> eqNe=new ExampleEqNePropertyDaoImpl<T>(this);
+
+
+
 
     public BaseDaoImpl() {
         ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
         clazz = (Class<T>) type.getActualTypeArguments()[0];
-        System.out.println("DAO的真实实现类是：" + this.clazz.getName());
+
+        logger.debug("DAO的真实实现类是：" + this.clazz.getName());
     }
     /**
      * 向DAO层注入SessionFactory
@@ -87,9 +103,10 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     public int count() {
         return (int) getSession().createQuery(
-                "select count(1) from "+clazz.getSimpleName())
+                "select count("+coutId+") from "+clazz.getSimpleName())
                 .uniqueResult();
     }
+
 
 
     @Override
@@ -123,120 +140,6 @@ public class BaseDaoImpl<T> implements Dao<T> {
         getSession().delete(load);
     }
 
-    @Override
-    public List<T> findByExampleLike(T example){
-        return findByExampleLike(example,MatchMode.ANYWHERE);
-    }
-
-    @Override
-    public List<T> findByExampleLike(T example, String order){
-        List list =  getSession().createCriteria(clazz)
-
-                .add(Example.create(example)).addOrder(Order.asc(order)).list();
-
-        return list;
-    }
-
-    @Override
-    public List<T> findByExampleLike(T example, MatchMode matchMode){
-
-        List list = getSession().createCriteria(clazz)
-                .add(Example.create(example)
-                        .enableLike(matchMode)).list();
-        return list;
-    }
-
-    public List<T> findByExampleNoLike(T example){
-        List list = getSession().createCriteria(clazz)
-                .add(Example.create(example)).list();
-        return list;
-    }
-
-    @Override
-    public List<T> findByExampleLike(T example, int pageNo, int pageSize){
-        return findByExampleLike(example, pageNo, pageSize,"id");
-    }
-
-    public List<T> findByExampleLike(T example, int pageNo, int pageSize, String order){
-
-        return findByExampleLike(example, pageNo, pageSize, Order.desc(order));
-    }
-
-    @Override
-    public long countByExampleLike(T example) {
-        return 0;
-    }
-
-    @Override
-    public List<T> findByExampleEq(T example) {
-        return null;
-    }
-
-    @Override
-    public List<T> findByExampleEq(T example, String order) {
-        return null;
-    }
-
-    @Override
-    public List<T> findByExampleEq(T example, MatchMode matchMode) {
-        return null;
-    }
-
-    @Override
-    public List<T> findByExampleEq(T example, int pageNo, int pageSize) {
-        return null;
-    }
-
-    @Override
-    public List<T> findByExampleEq(T example, int pageNo, int pageSize, String order) {
-        return null;
-    }
-
-    @Override
-    public long countByExampleEq(T example) {
-        return 0;
-    }
-
-
-    @Override
-    public List<T> findByExampleNeProperty(T example, int pageNo, int pageSize, Map<String, Object> neqProperty, Order order){
-        Criteria criteria = createExampleLike(example, pageNo, pageSize, order);
-        for (String key : neqProperty.keySet()) {
-            criteria.add(Restrictions.ne(key,neqProperty.get(key)));
-        }
-        return criteria.list();
-    }
-
-
-    @Override
-    public List<T> findByExampleNeProperty(T example, int pageNo, int pageSize, Map<String, Object> neqProperty){
-        return findByExampleNeProperty(example, pageNo, pageSize, neqProperty,Order.desc("id"));
-    }
-
-
-    @Override
-    public long countByExampleNeProperty(T example, Map<String, Object> neqProperty){
-        Criteria criteria = getSession().createCriteria(clazz)
-                .add(Example.create(example).enableLike(MatchMode.ANYWHERE))
-                .setProjection(Projections.count("id"));
-        for (String key : neqProperty.keySet()) {
-            criteria.add(Restrictions.ne(key,neqProperty.get(key)));
-        }
-        return (long)criteria.uniqueResult();
-    }
-
-
-    @Override
-    public List<T> findByExampleLike(T example, int pageNo, int pageSize, Order order){
-        List list = createExampleLike(example, pageNo, pageSize, order)
-                .list();
-        return list;
-    }
-    public List<T> findByExampleEq(T example, int pageNo, int pageSize, Order order){
-        Criteria criteria = createExampleNoLike(example, pageNo, pageSize, order);
-        List list = criteria.list();
-        return list;
-    }
 
     Criteria createExampleLike(T example, int pageNo, int pageSize, Order order) {
         Criteria criteria = getSession().createCriteria(clazz)
@@ -244,28 +147,159 @@ public class BaseDaoImpl<T> implements Dao<T> {
         return createPageOrder(criteria,pageNo,pageSize,order);
     }
 
-    private Criteria createExampleNoLike(T example, int pageNo, int pageSize, Order order) {
-        Criteria criteria = getSession().createCriteria(clazz)
-                .add(Example.create(example));
-        return createPageOrder(criteria,pageNo,pageSize,order);
+
+    @Override
+    public List<T> findByExampleLike(T example){
+        return like.findByExampleLike(example,MatchMode.ANYWHERE);
     }
 
-    private Criteria createPageOrder(Criteria criteria,int pageNo, int pageSize, Order order){
+    @Override
+    public List<T> findByExampleLike(T example, String order){
+        return like.findByExampleLike(example, order);
+    }
+
+    @Override
+    public List<T> findByExampleLike(T example, MatchMode matchMode){
+        return like.findByExampleLike(example, matchMode);
+    }
+
+
+
+    @Override
+    public List<T> findByExampleLike(T example, int pageNo, int pageSize){
+        return like.findByExampleLike(example, pageNo, pageSize,orderId);
+    }
+
+    public List<T> findByExampleLike(T example, int pageNo, int pageSize, String order){
+
+        return  like.findByExampleLike(example, pageNo, pageSize, Order.desc(order));
+    }
+    @Override
+    public List<T> findByExampleLike(T example, int pageNo, int pageSize, Order order){
+
+        return  like.findByExampleLike(example, pageNo, pageSize,order);
+    }
+
+
+    @Override
+    public long countByExampleLike(T example) {
+        return like.countByExampleLike(example,MatchMode.ANYWHERE);
+    }
+
+    @Override
+    public long countByExampleLike(T example, MatchMode matchMode) {
+        return like.countByExampleLike(example, matchMode);
+    }
+
+
+    @Override
+    public List<T> findByExampleEq(T example) {
+        return eq.findByExampleEq(example,orderId);
+    }
+
+
+
+    @Override
+    public List<T> findByExampleEq(T example, String order) {
+       return eq.findByExampleEq(example,Order.desc(order));
+    }
+
+    @Override
+    public List<T> findByExampleEq(T example, Order order) {
+        return eq.findByExampleEq(example, order);
+    }
+
+    @Override
+    public List<T> findByExampleEq(T example, int pageNo, int pageSize) {
+
+        return eq.findByExampleEq(example, pageNo, pageSize,orderId);
+    }
+
+    @Override
+    public List<T> findByExampleEq(T example, int pageNo, int pageSize, String order) {
+        return eq.findByExampleEq(example, pageNo, pageSize,Order.desc(order));
+    }
+
+    @Override
+    public List<T> findByExampleEq(T example, int pageNo, int pageSize, Order order){
+
+        return eq.findByExampleEq(example, pageNo, pageSize, order);
+    }
+    @Override
+    public long countByExampleEq(T example) {
+        return eq.countByExampleEq(example);
+    }
+
+
+    @Override
+    public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty) {
+        return eqNe.findByExampleEqNeProperty(example, neqProperty,orderId);
+    }
+    @Override
+    public List<T>  findByExampleEqNeProperty(T example, Map<String, Object> neqProperty, String order) {
+        return eqNe.findByExampleEqNeProperty(example, neqProperty,Order.desc(order));
+    }
+    @Override
+    public List<T> findByExampleEqNeProperty(T example, Map<String, Object> neqProperty, Order order) {
+
+
+        return eqNe.findByExampleEqNeProperty(example, neqProperty, order);
+    }
+
+    @Override
+    public List<T> findByExampleEqNeProperty(T example, int pageNo, int pageSize,
+                                             Map<String, Object> neqProperty, Order order) {
+        return eqNe.findByExampleEqNeProperty(example, pageNo, pageSize, neqProperty, order);
+    }
+
+    @Override
+    public List<T> findByExampleEqNeProperty(T example, int pageNo, int pageSize,
+                                             Map<String, Object> neqProperty) {
+        return eqNe.findByExampleEqNeProperty(example, pageNo,
+                pageSize, neqProperty,orderId);
+    }
+    @Override
+    public List<T> findByExampleEqNeProperty(T example, int pageNo, int pageSize,
+                                             Map<String, Object> neqProperty, String order) {
+        return eqNe.findByExampleEqNeProperty(example, pageNo, pageSize,
+                neqProperty, Order.desc(order));
+    }
+    @Override
+    public long countByExampleEqNeProperty(T example, Map<String, Object> neqProperty) {
+        return eqNe.countByExampleEqNeProperty(example, neqProperty);
+    }
+
+    /**
+     * 为Criteria 添加 排序以及分页
+     * @param criteria 查询Criteria
+     * @param pageNo 页号
+     * @param pageSize 页大小
+     * @param order 排序
+     * @return
+     */
+    protected Criteria createPageOrder(Criteria criteria,int pageNo, int pageSize, Order order){
         return criteria.setFirstResult((pageNo-1) * pageSize)
                 .setMaxResults(pageSize)
                 .addOrder(order);
     }
-
-
-    public long countByExample(T example){
-        return (long) getSession().createCriteria(clazz)
-                .add(Example.create(example).enableLike(MatchMode.ANYWHERE))
-                .setProjection(Projections.count("id")).uniqueResult();
+    protected long countCriteria(Criteria criteria){
+        Long result = (Long) criteria.setProjection(Projections.count(coutId)).uniqueResult();
+        if (result==null){
+            result= 0L;
+        }
+        return result;
     }
+
+
+//    public long countByExample(T example){
+//        return (long) getSession().createCriteria(clazz)
+//                .add(Example.create(example).enableLike(MatchMode.ANYWHERE))
+//                .setProjection(Projections.count("1")).uniqueResult();
+//    }
 
     @Override
     public boolean has(T example){
-        long count = countByExample(example);
+        long count = countByExampleEq(example);
         return count>0;
     }
     @Override
@@ -276,5 +310,13 @@ public class BaseDaoImpl<T> implements Dao<T> {
     @Override
     public int execUpdateSQL(String sql) {
         return getSession().createSQLQuery(sql).executeUpdate();
+
+    }
+
+
+    @Override
+    public LambdaCriteria<T> criteriaQuery(){
+        LambdaCriteria<T> criteriaBuild = new LambdaCriteria<>(clazz,getSession());
+        return criteriaBuild;
     }
 }

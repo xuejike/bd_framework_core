@@ -1,5 +1,6 @@
 package com.bidanet.bdcms.core.controller;
 
+import com.bidanet.bdcms.core.bean.AjaxCallBack;
 import com.bidanet.bdcms.core.exception.CheckException;
 
 /**
@@ -18,6 +19,7 @@ public class BaseController {
             errorMsg(msg);
         }
     }
+
 
 
 
