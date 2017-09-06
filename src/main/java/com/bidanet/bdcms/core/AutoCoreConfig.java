@@ -52,6 +52,8 @@ public class AutoCoreConfig extends WebMvcConfigurerAdapter{
         super.extendMessageConverters(converters);
     }
 
+
+
     @Bean
     public BdApplication app(@Autowired ApplicationContext applicationContext){
         return BdApplication.init(applicationContext);
