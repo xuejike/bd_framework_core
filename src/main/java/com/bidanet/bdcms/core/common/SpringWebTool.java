@@ -61,8 +61,10 @@ public class SpringWebTool {
         HttpServletRequest request = getRequest();
 
         String host = request.getScheme()+
-                "://"+request.getServerName()+
-                ":"+request.getServerPort();
+                "://"+request.getServerName();
+        if (request.getServerPort() != 80){
+            host+=":"+request.getServerPort();
+        }
         return host+"/"+request.getContextPath()+"/";
     }
     public static <T> T getBean(Class<T> tClass){
@@ -107,9 +109,12 @@ public class SpringWebTool {
         HttpServletRequest request = SpringWebTool.getRequest();
 
         String host = request.getScheme()+
-                "://"+request.getServerName()+
-                ":"+request.getServerPort();
+                "://"+request.getServerName();
+
         url.append(host);
+        if (request.getServerPort()!=80){
+            url.append(":"+request.getServerPort());
+        }
 
         urlStr=urlStr.trim();
         String requestURI = request.getRequestURI();
