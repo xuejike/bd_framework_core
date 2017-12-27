@@ -59,7 +59,7 @@ public class Page<T> {
     }
 
     public int getPageCount() {
-        if (total==null){
+        if (total==null||pageSize==0){
             return 0;
         }
         if(pageSize >= total){
