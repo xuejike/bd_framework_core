@@ -11,18 +11,31 @@ import java.util.List;
  * Created by Administrator on 2016/11/3.
  */
 public class EntityTool {
+    public static ThreadLocal<Boolean> voInvoke = new ThreadLocal<>();
 
     public List<?> createEntityToVoList(Class<? extends EntityToVo> cs, List list){
-        ArrayList<Object> rs = new ArrayList<>();
-        for (Object o : list) {
-            Object entityToVo = createEntityToVo(cs, o);
-            rs.add(entityToVo);
+        try {
+            voInvoke.set(true);
+            ArrayList<Object> rs = new ArrayList<>();
+            for (Object o : list) {
+                Object entityToVo = createEntityToVo(cs, o);
+                rs.add(entityToVo);
+            }
+            return rs;
+        }catch (Exception ex){
+            throw ex;
+        } finally {
+            voInvoke.remove();
         }
-        return rs;
+
+
+
 
     }
     public EntityToVo createEntityToVo(Class<? extends EntityToVo> cs,Object ...datas){
+
         try {
+            voInvoke.set(true);
             EntityToVo entityToVo = cs.newInstance();
             entityToVo.loadData(datas);
             return entityToVo;
@@ -30,7 +43,10 @@ public class EntityTool {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        }finally {
+            voInvoke.set(false);
         }
+
         return null;
     }
 
@@ -43,6 +59,7 @@ public class EntityTool {
         entityToVoPage.setPageSize(page.getPageSize());
         List list = createEntityToVoList(cs,page.getList());
         entityToVoPage.setList(list);
+
         return entityToVoPage;
     }
 }
