@@ -59,8 +59,23 @@ public class Page<T> {
     }
 
     public int getPageCount() {
+
+        if (total==null){
+            return 0;
+        }
+
+        if(pageSize >= total){
+            pageCount=1;
+            return pageCount;
+        }
         if (pageCount==0&&total>0&&pageSize>0){
-            pageCount= (int) (total/pageSize)+1;
+
+            pageCount= (int) (total/pageSize);
+
+            if (total%pageSize!=0){
+                pageCount++;
+            }
+
         }
         return pageCount;
     }

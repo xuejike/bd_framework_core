@@ -1,0 +1,10 @@
+package ${packName};
+
+import ${classPackName};
+
+/**
+* ${className} DAO
+*/
+public interface ${className}Dao extends Dao<${className}> {
+
+}

@@ -15,6 +15,9 @@ import java.io.IOException;
  * SpringMVC，web相关的工具类
  */
 public class SpringWebTool {
+
+    protected static ThreadLocal<HttpServletRequest> httpServletRequestThreadLocal=new ThreadLocal<>();
+    protected static ThreadLocal<HttpServletResponse> httpServletResponseThreadLocal=new ThreadLocal<>();
     public static HttpSession getSession(){
 //        Executors.newCachedThreadPool()
         HttpServletRequest request = getRequest();
@@ -24,14 +27,14 @@ public class SpringWebTool {
     }
 
     public static HttpServletRequest getRequest() {
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         //得到request
 
-        return servletRequestAttributes.getRequest();
+        return httpServletRequestThreadLocal.get();
     }
     public static HttpServletResponse getResponse(){
-        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return servletRequestAttributes.getResponse();
+//        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return httpServletResponseThreadLocal.get();
     }
     public static ServletContext getServletContext(){
         return ContextLoader.getCurrentWebApplicationContext().getServletContext();
@@ -76,4 +79,8 @@ public class SpringWebTool {
         }
     }
 
+    public static void setRequestResponse(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        httpServletRequestThreadLocal.set(httpServletRequest);
+        httpServletResponseThreadLocal.set(httpServletResponse);
+    }
 }

@@ -1,5 +1,6 @@
 package com.bidanet.bdcms.core.dao;
 
+import com.bidanet.hibernate.lambda.core.LambdaCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 /**
  * Created by xuejike on 2015/10/31.
  */
-public interface Dao<T> {
+public interface Dao<T> extends ExampleLikeDao<T>, ExampleEqDao<T>, ExampleEqNePropertyDao<T> {
 
 
     T load(Serializable id);
@@ -53,39 +54,6 @@ public interface Dao<T> {
      */
     List<T> findByHqlPage(String hql, int pageNo, int pageSize, Object... params) ;
 
-    /**
-     * 通过Like查询实体
-     * @param example 条件
-     * @return
-     */
-    List<T> findByExampleLike(T example);
-    List<T> findByExampleLike(T example, String order);
-    List<T> findByExampleLike(T example, MatchMode matchMode);
-    List<T> findByExampleLike(T example, int pageNo, int pageSize);
-    List<T> findByExampleLike(T example, int pageNo, int pageSize, String order);
-
-    long countByExampleLike(T example);
-
-    List<T> findByExampleEq(T example);
-    List<T> findByExampleEq(T example, String order);
-    List<T> findByExampleEq(T example, MatchMode matchMode);
-    List<T> findByExampleEq(T example, int pageNo, int pageSize);
-    List<T> findByExampleEq(T example, int pageNo, int pageSize, String order);
-
-    long countByExampleEq(T example);
-
-
-
-
-    List<T> findByExampleNeProperty(T example, int pageNo, int pageSize, Map<String, Object> neqProperty, Order order);
-
-    List<T> findByExampleNeProperty(T example, int pageNo, int pageSize, Map<String, Object> neqProperty);
-
-    long countByExampleNeProperty(T example, Map<String, Object> neqProperty);
-
-    List<T> findByExampleLike(T example, int pageNo, int pageSize, Order order);
-
-
 
     void delete(Serializable id);
 
@@ -93,4 +61,6 @@ public interface Dao<T> {
 
     void flush();
     int execUpdateSQL(String sql);
+
+    LambdaCriteria<T> criteriaQuery();
 }

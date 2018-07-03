@@ -1,0 +1,26 @@
+package com.bidanet.bdcms.service.impl;
+
+import com.bidanet.bdcms.dao.Dao;
+import com.bidanet.bdcms.dao.${className}Dao;
+import com.bidanet.bdcms.entity.${className};
+import com.bidanet.bdcms.service.${className}Service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+
+/**
+*
+*/
+@Service
+public class ${className}ServiceImpl extends BaseServiceImpl<${className}> implements ${className}Service {
+    @Autowired
+    private ${className}Dao dao;
+    @Override
+    protected Dao getDao() {
+        return dao;
+    }
+
+
+}

@@ -6,7 +6,7 @@
 
 
     <groupId>bd_framework</groupId>
-    <artifactId>bd_project</artifactId>
+    <artifactId>bd_framework_core</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <packaging>jar</packaging>
@@ -30,7 +30,7 @@
 
         <!--<repository>-->
         <!--<id>oschina</id>-->
-        <!--<url>http://maven.oschina.net/content/groups/public/</url>-->
+        <!--<url>http://maven.aliyun.com/nexus/content/repositories/central/</url>-->
         <!--</repository>-->
         <repository>
             <id>maven</id>
@@ -80,12 +80,7 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
+
 
         <!-- 使用SpringMVC需配置 -->
         <dependency>
@@ -102,18 +97,7 @@
 
 
 
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-mongodb</artifactId>
-            <version>1.9.2.RELEASE</version>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.3.0</version>
-        </dependency>
 
         <!-- hibernate -->
         <dependency>
@@ -245,22 +229,10 @@
 
 
 
-        <!-- https://mvnrepository.com/artifact/com.qiniu/qiniu-java-sdk -->
-        <dependency>
-            <groupId>com.qiniu</groupId>
-            <artifactId>qiniu-java-sdk</artifactId>
-            <version>7.1.1</version>
-        </dependency>
 
         <!-- http://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
 
 
-        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.8.1</version>
-        </dependency>
 
         <dependency>
             <groupId>com.mashape.unirest</groupId>
@@ -311,14 +283,6 @@
         </dependency>
 
 
-        <!--        &lt;!&ndash;二维码jar&ndash;&gt;
-                <dependency>
-                    <groupId>com.github.kenglxn.qrgen</groupId>
-                    <artifactId>javase</artifactId>
-                    <version>2.2.0</version>
-                </dependency>-->
-
-
 
         <dependency>
             <groupId>commons-logging</groupId>
@@ -333,6 +297,18 @@
             <version>3.2.1</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.xuejike</groupId>
+            <artifactId>hibernate-lambda-query</artifactId>
+            <version>0.1.4bate2</version>
+        </dependency>
 
 
     </dependencies>
